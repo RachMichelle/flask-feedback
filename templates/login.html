@@ -3,5 +3,35 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<p>login form here</p>
+<div class="container">
+    <div class="row text-center">
+        <div class="col mb-3">
+            <h1 class="display-1 m">Log In</h1>
+            <small class="text-secondary">No account? Register <a href="/register">here</a>.</small>
+        </div>
+    </div>
+    <form method="POST">
+        {{form.hidden_tag()}}
+        {% for field in form
+        if field.widget.input_type != 'hidden' %}
+        <div class="row justify-content-center">
+            <div class="col-6 mb-2">
+                {{field.label (class_='form-label')}}
+                {{field (class_='form-control')}}
+
+                {% for error in field.errors %}
+                <small class="text-danger">{{error}}</small>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% endfor %}
+        <div class="row text-center">
+            <div class="col mt-3">
+                <button class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+
+    </form>
+</div>
 {% endblock %}

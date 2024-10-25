@@ -1,11 +1,13 @@
 from flask import Flask, render_template, redirect
 from models import db, connect_db, User
+from forms import RegisterForm, LoginForm
 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///feedbackdb'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
+app.config['SECRET_KEY'] = 'feedbackapp'
 
 connect_db(app)
 
@@ -15,11 +17,13 @@ def go_to_home():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register_user():
-    return render_template('register.html')
+    form=RegisterForm()
+    return render_template('register.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_user():
-    return render_template('login.html')
+    form=LoginForm()
+    return render_template('login.html', form=form)
 
 @app.route('/secret')
 def show_secret():
