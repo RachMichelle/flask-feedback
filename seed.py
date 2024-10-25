@@ -12,8 +12,8 @@ with app.app_context():
     db.session.add_all([u1, u2])
     db.session.commit()
 
-    fb1=Feedback(title='meow', content='meow meow meow meow', username='cat')
-    fb2=Feedback(title='woof', content='bark bark woof bark woof', username='dog')
+    # fb1=Feedback(title='meow', content='meow meow meow meow', username='cat')
+    # fb2=Feedback(title='woof', content='bark bark woof bark woof', username='dog')
 
-    db.session.add_all([fb1, fb2])
-    db.session.commit()
+    # db.session.add_all([fb1, fb2])
+    # db.session.commit()
