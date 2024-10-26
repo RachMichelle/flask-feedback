@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}{{user.username}}{% endblock %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=True) %}
+{% if messages %}
+{% for category, message in messages %}
+<div class="alert alert-{{category}} ">{{message}}</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<div class="container">
+
+    <div class="card mt-5 text-center">
+        <div class="card-body">
+            <h1 class="card-title">{{user.username}}</h1>
+            <h5 class="card-subtitle mb-2 text-body-secondary">{{user.get_full_name()}}</h5>
+            <p class="card-text">{{user.email}}</p>
+        </div>
+    </div>
+
+    {% if user.username == session['current_user'] %}
+    <div class="mt-3 text-center">
+        <a class="btn btn-primary" href="/users/{{user.username}}/feedback/add">Add Feedback</a>
+        <a class="btn btn-danger" href="/users/{{user.username}}/delete">Delete my account</a>
+    </div>
+    {% endif %}
+
+    <ul class="list-group mt-2">
+
+        {% for feedback in user.fb %}
+        <li class="list-group-item">
+            <h5 class="my-1">{{feedback.title}}</h5>
+            <p class="mb-1">{{feedback.content}}</p>
+            <small class="text-secondary">Posted by {{feedback.user.username}}</small>
+            {% if feedback.user.username == session['current_user'] %}
+            <div class="mt-1">
+                <form action="/feedback/{{feedback.id}}/delete" method="POST">
+                    <a class="btn btn-link btn-sm" href="/feedback/{{feedback.id}}/update">Edit</a>
+                    |
+                    <button class="btn btn-link btn-sm text-danger">Delete</button>
+                </form>
+            </div>
+        </li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+
+</div>
+
+{% endblock %}

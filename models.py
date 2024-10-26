@@ -17,7 +17,7 @@ class User(db.Model):
 
     username=db.Column(db.String(20), primary_key=True, unique=True, nullable=False)
 
-    password=db.Column(db.String(20), nullable=False)
+    password=db.Column(db.String, nullable=False)
 
     email=db.Column(db.String(50), nullable=False)
 
@@ -65,10 +65,15 @@ class Feedback(db.Model):
 
     content=db.Column(db.Text, nullable=False)
 
-    username=db.Column(db.Text, db.ForeignKey('users.username'))
+    username=db.Column(db.Text, db.ForeignKey('users.username', ondelete='CASCADE'))
 
-    user=db.relationship('User', backref='fb')
+    user=db.relationship('User', cascade="all, delete", backref='fb')
 
     def __repr__(self):
         fb=self
         return f'<id: {fb.id}, title: {fb.title}, content: {fb.content}, posted by {fb.username}'
+    
+    @classmethod
+    def create_new_feedback(cls, title, content, username):
+        """create new instance of Feedback"""
+        return cls(title=title, content=content, username=username)

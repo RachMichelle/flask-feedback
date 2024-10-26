@@ -12,6 +12,12 @@
 {% endif %}
 {% endwith %}
 
+{% if 'current_user' in session %}
+<h1 class="display-1">You're already logged in!</h1>
+<a href="/secret">Go back</a>
+{% endif %}
+
+{% if 'current_user' not in session %}
 <div class="container">
     <div class="row text-center">
         <div class="col mb-3">
@@ -43,4 +49,5 @@
 
     </form>
 </div>
+{% endif %}
 {% endblock %}
